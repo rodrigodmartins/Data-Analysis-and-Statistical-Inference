@@ -1,0 +1,127 @@
+---
+title: "OpenIntro Statistics"
+author: "Rodrigo Martins"
+date: "March 29, 2015"
+output: 
+    pdf_document:
+        fig_caption: yes
+geometry: margin=1.5cm
+
+---
+
+## CHAPTER 1 - INTRODUCTION TO DATA
+
+### Exercise 1.1
+
+Of the 224 patients in the treatment group, 45 had a stroke by the end of the first year. Using these two numbers, compute the proportion of patients in the treatment group who had a stroke by the end of their first year.
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+setwd("/Volumes/E-Books and articles/e-Books & articles/R/OpenIntro Statistics/openintroData")
+load('stent.rda')
+s30<-as.data.frame(rbind(table((split(stent,stent$period)[[1]])[,1:2]),colSums(table((split(stent,stent$period)[[1]])[,1:2]))))
+rownames(s30)<-c('control','treatment','TOTAL')
+s365<-as.data.frame(rbind(table((split(stent,stent$period)[[2]])[,1:2]),colSums(table((split(stent,stent$period)[[2]])[,1:2]))))
+rownames(s365)<-c('control','treatment','TOTAL')
+library(pander)
+pander(s30,'Events - 0 to 30 days period',emphasize.strong.rows =3)
+pander(s365,'Eventsp - 0 to 365 days period',emphasize.strong.rows =3)
+```
+
+***ANSWER :***
+
+* Proportion of patientes who had a stroke in treatment group :
+```{r,echo=TRUE,cache=TRUE}
+round(45/224,3) ; paste((round(45/224,3)*100),'%',sep="")
+```
+
+* Proportion of patientes who had no stroke in treatment group :
+```{r,echo=TRUE,cache=TRUE}
+round(179/224,3) ; paste((round(179/224,3)*100),'%',sep="")
+```
+
+* Proportion of patientes who had stroke in control group :
+```{r,echo=TRUE,cache=TRUE}
+round(28/227,2) ; paste((round(28/227,3)*100),'%',sep="")
+```
+
+* Proportion of patientes who had no stroke in control group :
+```{r,echo=TRUE,cache=TRUE}
+round(199/227,2) ; paste((round(199/227,3)*100),'%',sep="")
+```
+
+### Exercise 1.2
+
+We consider a publicly available data set that summarizes information about the 3,143 counties in the United States, and we call this the `county` data set. This data set includes information about each county: its name, the state where it resides, its population in 2000 and 2010, per capita federal spending, poverty rate, and five additional characteristics. How might these data be organized in a data matrix?
+
+***ANSWER :***
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+setwd("/Volumes/E-Books and articles/e-Books & articles/R/OpenIntro Statistics/openintroData")
+load('county.rda')
+library(pander)
+panderOptions("table.split.table", 110)
+pander(summary(county),"county summary" )
+panderOptions("table.split.table", 100)
+panderOptions("round", 4)
+panderOptions('keep.trailing.zeros', TRUE)
+pander(head(cbind(entry=1:nrow(county),county),5),"How to organize it in a data matrix")
+```
+
+* Types of variables in `county`
+```{r}
+str(county)
+```
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE,fig.width=8,fig.cap="A scatterplot showing fed spend against poverty. Owsley County of Kentucky, with a poverty rate of 41.5% and federal spending of $21.50 per capita, is highlighted."}
+plot(fed_spend~poverty,county,xlim=c(0,55),ylim=c(0,32),xlab='Poverty Rate (Percent)',ylab='Federal Spending Per Capita',las=1,yaxt="n",pch=19,col='lightblue',cex=0.8)
+axis(2, at=c(0,10,20,30),las=2)
+text(45,33, "32 countries with higher\nfederal spending are not shown",pos=1)
+points(fed_spend~poverty,county, type = "p",pch=15,cex=0.3)
+points(fed_spend[county$name=='Owsley County']~poverty[county$name=='Owsley County'],county, type = "p",pch=1,cex=1.8,col='red',lwd=2)
+segments(x0=county$poverty[county$name=='Owsley County'],y0=-1,x1=county$poverty[county$name=='Owsley County'],y1=county$fed_spend[county$name=='Owsley County']-0.8,lty=2,col='red')
+segments(x0=-2,y0=county$fed_spend[county$name=='Owsley County'],x1=county$poverty[county$name=='Owsley County']-0.8,y1=county$fed_spend[county$name=='Owsley County'],lty=2,col='red')
+```
+
+### Exercise 1.3
+
+Data were collected about students in a statistics course. Three variables were recorded for each student: number of siblings, student height, and whether the student had previously taken a statistics course. Classify each of the variables as continuous numerical, discrete numerical, or categorical.
+
+***ANSWER :***
+
+* **Number of siblings =** mumerical, discrete.
+* **Student height =** numerical, continuous.
+* **Statistics course (Y/N) =** categorical.
+
+### Exercise 1.4
+
+Consider the variables group and outcome (at 30 days) from the stent study in Section 1.1. Are these numerical or categorical variables?
+
+***ANSWER :*** Categorical.
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+setwd("/Volumes/E-Books and articles/e-Books & articles/R/OpenIntro Statistics/openintroData")
+load('stent.rda')
+s30<-as.data.frame(rbind(table((split(stent,stent$period)[[1]])[,1:2]),colSums(table((split(stent,stent$period)[[1]])[,1:2]))))
+rownames(s30)<-c('control','treatment','TOTAL')
+library(pander)
+pander(s30,'Events - 0 to 30 days period',emphasize.strong.rows =3)
+pander(head(cbind(entry=1:nrow(stent),stent[,1:2]),5),"Head of stent data")
+```
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE,fig.width=8,fig.cap="A scatterplot of homeownership versus the percent of units that are in multi-unit structures for all 3,143 counties."}
+plot(homeownership~multiunit,county,ylim=c(0,90),xlab='Percent of Units in Multi-Unit Structures',ylab='Percent of Homeownership',las=1,xaxt="n",yaxt="n",pch=19,col='lightblue',cex=0.8)
+axis(1, at=c(0,20,40,60,80,100),lab=paste0(seq(0,100,by=20),'%'),las=1)
+axis(2, at=c(0,20,40,60,80),lab=paste0(seq(0,80,by=20),'%'),las=2)
+points(homeownership~multiunit,county, type = "p",pch=15,cex=0.3)
+```
+
+### Exercise 1.5
+
+Examine the variables in the `email50` data set, which are described in Table 1.4 on page 4. Create two questions about the relationships between these variables that are of interest to you.
+
+* Is the number of destinataries (*to_multiple*) related to *spam* messages ?
+* Is the number of dollar signs (*dollar*) related to *spam* messages ?
+
+```{r}
+setwd("/Volumes/E-Books and articles/e-Books & articles/R/OpenIntro Statistics/openintroData")
+load('email50.rda')
+library(pander)
+panderOptions("table.split.table", 120)
+panderOptions('keep.trailing.zeros', TRUE)
+pander(head(email50,5),"Head - email50 data set")
