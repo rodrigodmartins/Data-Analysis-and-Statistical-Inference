@@ -125,3 +125,58 @@ library(pander)
 panderOptions("table.split.table", 120)
 panderOptions('keep.trailing.zeros', TRUE)
 pander(head(email50,5),"Head - email50 data set")
+```
+
+### Exercise 1.6
+
+This example examines the relationship between homeownership and the percent of units in multi-unit structures (e.g. apartments, condos), which is visualized using a scatterplot in figure above. Are these variables associated?
+
+* The data suggests that there is a correlation between both variables : it seems that the lower the percentage of multi-unit structures, the higher the percentage of ownership. If there is relationship, they are associated.
+
+### Exercise 1.7
+
+For the second and third questions above, identify the target population and what represents an individual case.
+
+* Over the last 5 years, what is the average time to complete a degree for Duke undergraduate students?
+    - *Population :* All the undergraduate students from Duke University who had graduated, in the past 5 years.
+    - *Cases :* Each undergraduate student from Duke University, in the past 5 years.
+
+* Does a new drug reduce the number of deaths in patients with severe heart disease?
+    - *Population :* All patients with severe heart disease.
+    - *Cases :* Each patient with severe heart disease.
+
+### Exercise 1.8
+
+Suppose we ask a student who happens to be majoring in nutrition to select several graduates for the study. What kind of students do you think she might collect? Do you think her sample would be representative of all graduates?
+
+* She will probably collect her colleagues from the same course ou other health-related fields. The sample could not be representative of the population (or could be ...). The sample may be **biased**.
+
+### Exercise 1.9
+
+We can easily access ratings for products, sellers, and companies through websites. These ratings are based only on those people who go out of their way to provide a rating. If 50% of online reviews for a product are negative, do you think this means that 50% of buyers are dissatisfied with the product?
+
+* It may indicates that the product is not very well accepted, but probably the fraction of dissatisfied people is different from 50%. This is typical case of convenience sample. AS dissatisfied people usually tend to be very critical, the evaluation may include a negative bias.
+
+### Exercise 1.10
+
+Suppose an observational study tracked sunscreen use and skin cancer, and it was found that the more sunscreen someone used, the more likely the person was to have skin cancer. Does this mean sunscreen causes skin cancer?
+
+* Not necessarily. It shows that the use of sunscreen and having skin cancer is associated, though. The is a **confounding variable**, sun exposure, that is not described in the situation above. A **confounding varible** is correlated to both explanatory and response variables.
+
+### Exercise 1.11
+
+The graph above shows a negative association between the homeownership rate and the percentage of multi-unit structures in a county. However, it is unreasonable to conclude that there is a causal relationship between the two variables. Suggest one or more other variables that might explain the relationship visible in the graph.
+
+* Population density may be important. If a county is very dense, then this may require a larger fraction of residents to live in multi-unit structures. Additionally, the high density may contribute to increases in property value, making homeownership infeasible for many residents.
+
+### Exercise 1.12
+
+Why would it be good for cases within each stratum to be very similar?
+
+* We might get a more stable estimate for the subpopulation in a stratum if the cases are very similar. These improved estimates for each subpopulation will help us build a reliable estimate for the full population.
+
+### Exercise 1.13
+
+Suppose we are interested in estimating the malaria rate in a densely tropical portion of rural Indonesia. We learn that there are 30 villages in that part of the Indonesian jungle, each more or less similar to the next. Our goal is to test 150 individuals for malaria. What sampling method should be employed?
+
+* A simple random sample would likely draw individuals from all 30 villages, which could make data collection extremely expensive. Stratifed sampling would be a challenge since it is unclear how we would build strata of similar individuals. However, cluster sampling seems like a very good idea. First, we might randomly select half the villages, then randomly select 10 people from each. This would probably reduce our data collection costs substantially in comparison to a simple random sample and would still give us reliable information.
