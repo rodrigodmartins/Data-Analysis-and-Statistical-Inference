@@ -180,3 +180,49 @@ Why would it be good for cases within each stratum to be very similar?
 Suppose we are interested in estimating the malaria rate in a densely tropical portion of rural Indonesia. We learn that there are 30 villages in that part of the Indonesian jungle, each more or less similar to the next. Our goal is to test 150 individuals for malaria. What sampling method should be employed?
 
 * A simple random sample would likely draw individuals from all 30 villages, which could make data collection extremely expensive. Stratifed sampling would be a challenge since it is unclear how we would build strata of similar individuals. However, cluster sampling seems like a very good idea. First, we might randomly select half the villages, then randomly select 10 people from each. This would probably reduce our data collection costs substantially in comparison to a simple random sample and would still give us reliable information.
+
+### Exercise 1.14
+
+Look back to the study in Section 1.1 where researchers were testing whether stents were effective at reducing strokes in at-risk patients. Is this an experiment? Was the study blinded? Was it double-blinded?
+
+* *Experiment ? :* Yes, because the researches controled the design of the test.
+* *Blinded ? :* No, because the patients know if they received of not the stent.
+* *Double-blinded ? :* No, because it would be easy to reasearchers and doctors to know if a patient received or not the stent. A expiriment which is not blind, cannot be double-blind.
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE,fig.width=8,fig.cap="A scatterplot of line breaks versus num char for the email50 data."}
+setwd("/Volumes/E-Books and articles/e-Books & articles/R/OpenIntro Statistics/openintroData")
+load('email50.rda')
+nc1000<-(email50$num_char/1000)
+plot(email50$line_breaks~nc1000,xlab='Number of Characters (in thousands)',ylab='Number of Lines',las=1,pch=19,col='lightblue',cex=1.5)
+points(email50$line_breaks~nc1000, type = "p",pch=1,cex=1.5,col='blue',lwd=1)
+```
+
+### Exercise 1.15
+
+What do scatterplots reveal about the data, and how might they be useful?
+
+* Scaterplots may reveal relations and trends between variables.
+
+### Exercise 1.16
+
+Consider a new data set of 54 cars with two variables: vehicle price and weight. A scatterplot of vehicle price versus weight is shown below. What can be said about the relationship between these variables?
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE,fig.width=8,fig.cap="A scatterplot of price versus weight for 54 cars."}
+setwd("/Volumes/E-Books and articles/e-Books & articles/R/OpenIntro Statistics/openintroData")
+if("scales" %in% rownames(installed.packages()) == FALSE) {install.packages("scales")}
+library(scales)
+load('cars.rda')
+plot(price.1000~weight.lb,cars,xlab='Weight (Pounds)',ylab='Price ($1000s)',las=1,pch=19,col=alpha('deepskyblue4',0.5),cex=1.5)
+```
+
+* The scatterplot indicates a positive correlation between weight and price. The higher is the weight, the higher is the price. The relationship does not seems linear.
+
+
+### Exercise 1.17
+
+Describe two variables that would have a horseshoe shaped association in a scatterplot.
+
+* Variables with quadractic correlation may show the mentioned shape.
+* Consider the case where your vertical axis represents something "good" and your horizontal axis
+represents something that is only good in moderation. Health and water consumption fit this description since water becomes toxic when consumed in excessive quantities.
+
