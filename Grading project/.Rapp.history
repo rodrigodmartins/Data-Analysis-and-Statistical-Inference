@@ -1,3 +1,6 @@
+dbinom(60:100,100,0.56)
+sum(dbinom(60:100,100,0.56))
+pbinom(0,10,0.07,lower.tail=F)
 (34-24)/4
 dnorm(2.5,24,4)
 60/4
@@ -240,11 +243,8 @@ ls()
 rm(list=ls())
 load("/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/ny.138y.RData")
 rm(list=ls())
-load("/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/ny.138y.RData")
-?save
-rm(list=ls())
-setwd('/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/GitHub/Grading project')
 setwd('/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/GitHub/Data-Analysis-and-Statistical-Inference/Grading project')
+load("/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/GitHub/Data-Analysis-and-Statistical-Inference/Grading project/ny.138y.RData")
 ?aov
-?pairwise.t.test
-?TukeyHSD
+?data.frame
+?format
