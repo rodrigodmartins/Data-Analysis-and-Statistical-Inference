@@ -2,11 +2,11 @@
 title: "OpenIntro Statistics"
 author: "Rodrigo Martins"
 date: "March 29, 2015"
-output: 
-    pdf_document:
-        fig_caption: yes
+output:
+  html_document: default
+  pdf_document:
+    fig_caption: yes
 geometry: margin=1.5cm
-
 ---
 
 ## CHAPTER 1 - INTRODUCTION TO DATA

@@ -1,11 +1,12 @@
 ---
 title: "Global warming evidences in New York city"
+geometry: margin=1.5cm
 date: "April 19, 2015"
 output:
+  pdf_document: default
   html_document:
-    theme: cerulean
     fig_caption: yes
-
+    theme: cerulean
 ---
 
 <!-- For more info on RMarkdown see http://rmarkdown.rstudio.com/ -->
@@ -42,7 +43,7 @@ Originally, the data provided by NOAA database gives the the minimum and maximum
 
 In order to allow the investigation of the possible influence of the seasons of the year, a variable called *season* was created based on the exact dates of the climatic solstices and equinoxes which define the end of a season and the start of the next, according to *timeanddate.com* seasons calculator.
 
-Finally, as the effect of the increase of average temperature is usually more evident after longer periods of time, the available data was split in six distinct periods of 23 years each, as follows :
+As the effect of the increase of average temperature is usually more evident after longer periods of time, the available data was split in six distinct periods of 23 years each, as follows :
 
 * *Period 1 :* years of 1877 to 1899
 * *Period 2 :* years of 1900 to 1922
@@ -53,15 +54,107 @@ Finally, as the effect of the increase of average temperature is usually more ev
 
 The help in this identification, a variable called *period* was also created.
 
-In the 
+The details of the process to make de data set ready for this reaserch will not be detailed here, because it is not the objective of this reasearch, however it is important to inform that all the operations were performed using **R** (version 3.1.3) and **RStudio (version 0.98.1103), both versions to Mac OS X (version 10.10.3). The final data set can be downloaded at https://github.com/rodrigodmartins/Data-Analysis-and-Statistical-Inference/tree/master/Grading%20project, as a *RData* file.
+
+Here it is possible to check some entries of the final data set :
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+if("pander" %in% rownames(installed.packages()) == FALSE) {install.packages("pander")}
+library(pander)
+setwd('/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/GitHub/Data-Analysis-and-Statistical-Inference/Grading project')
+load('ny.138y.RData')
+panderOptions("table.split.table", 130)
+panderOptions('keep.trailing.zeros', TRUE)
+pander(head(ny.full.138y,4),"Data set used in the research")
+```
+
+When one visualize the data set, it is possible to identify that the cases (units of observation) are the days when the temperature measurements were performed. Among the variables in the complete set, only two, **period** and **t.ave.c** (average temperature of the day, in degrees Celsius) will be used. In order to address the possible impact of the increase of average temperatures over the different seasons, the same variables will be used, however, subsetted by **season**.
+
+The variable **period** is **categorical** and identifies the group of years each temperature measurement belongs to (as discussed in *Data* section). The varibale **t.ave.c** is numerical continuous, as it is a temperature measurement.
+
+The study here described is **observational**, taking into account that retrospective data already sampled by NOAA was used. On the other hand, the New York Central Park climatic station was randomly selected among all others in the same area. It means that, in the context of this study, the obtained inference result can be **generalized to New York city** (New York city is the population of interest in this study), but **no causality** estatements will be possible, because the available data is not result of a experiment and it was not originally designed to have controls and different groups to compare the average temperature increases.
+
+Finnaly, the main possible source of bias in the data can be attributed to the method of temperaure measurement. During the 138 years of data collection, is is expected that the technology used for data collection have changed. It means that the accuracy and precision of temperature measurements may have changed over the years, and this effect may have some influence over the result of the research.
 
 ### Exploratory data analysis:
 
-Insert exploratory data analysis here...
+Some previous exploratory data analysis was performed, in order to look for evidences of the increase of the average temperature over time.
+
+First, a scatterplot of the average annual temperatures over the years was generated. a regression line was included.
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE,fig.width=10,fig.height=3}
+if("ggplot2" %in% rownames(installed.packages()) == FALSE) {install.packages("ggplot2")}
+suppressPackageStartupMessages(library(ggplot2))
+h1<-ggplot(ny.138y.t.ave.year,aes(year,t.ave.c.year))+theme_bw()+geom_point(alpha=0.8)
+h2<-h1+geom_smooth(method='lm',color='red',aes(group=1))
+h3<-h2+labs(x='Year',y="Temperature, ºC",title='Time vs. Year average temperature')
+h4<-h3+theme(axis.title.x=element_text(face='bold',size=12),axis.title.y=element_text(face='bold',size=12),plot.title=element_text(face='bold',size=14,color='blue'))
+h5<-h4+scale_x_discrete(breaks=seq(1877,2014,5))
+h6<-h5+theme(axis.text.x=element_text(angle=90,size=12),axis.text.y=element_text(size=12))
+h6
+```
+
+Boxplots from the different periods over different seasons were also evaluated.
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE,fig.width=10,fig.height=3}
+j1<-ggplot(ny.full.138y,aes(period,t.ave.c,fill=season))+theme_bw()+geom_boxplot()+facet_wrap(~season, nrow = 1, ncol = 4)
+j2<-j1+labs(x='Period',y="Temperature, ºC",title='Period vs. Year average temperature')
+j3<-j2+theme(axis.title.x=element_text(face='bold',size=12),axis.title.y=element_text(face='bold',size=12),plot.title=element_text(face='bold',size=14,color='blue'))
+j3
+```
+
+In both graphs is possible to visualize that suggests that the average temperature of New York city have been increasing along the years (or periods). At the same time, it is still not clear if this possible increase can be more noticiable in any of the seasons. Further analysis will be needed for that.
+
+The data summary with descriptive statistics for the data set shows :
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+panderOptions("table.split.table", 130)
+panderOptions('keep.trailing.zeros', TRUE)
+pander(summary(ny.full.138y[,c(1,2,5,9)]),"Summary and descriptive statistics")
+```
+
+Additionally, the closer values of *median* and *mean* temperature, and the almost simetric shape of the boxplots, indicate that the data is nearly normaly distributed. The big number of observations (50,366 observations, being approximatelly 12,500 in each season and 8,400 in each period) also helps to increase the power of the statistical tests to be performed.
 
 ### Inference:
 
-Insert inference section here...
+The average temperatures for each of the 6 periods will be compared to each other using ANOVA (analysis of variance) method.
+
+It is relevant to state the hypothesis which is under evaluation :
+
+* H<sub>0</sub> : $\mu$<sub>1877-1899</sub> = $\mu$<sub>1900-1922</sub> = $\mu$<sub>1923-1945</sub> = $\mu$<sub>1946-1968</sub> = $\mu$<sub>1969-1991</sub> = $\mu$<sub>1992-2014</sub>
+* H<sub>A</sub> : At least one pair of means are different from each other.
+
+The H<sub>0</sub> hypothesis means that the mean temperature over the six periods unders evaluation are the same. On the other hand, H<sub>A</sub>, the alternative hypothesis, is that at least one pair of means are different from each other
+
+It is important to emphasize that all conditions for a suitable ANOVA are met or are under control :
+
+* **Independence within groups :** One may suspect that the temperature measured in one particular day may not be completely independent from the temperature measured in the next day, which can be true. On the other hand, as each of the 6 periods under evaluation include 23 years of randomly collected temperature data, there is a huge amount of observations (approximately 8,400 in each period) which increase significantly the power of the test even for minor variations. For this reason, the measurements which composes each of the periods are assumed as independent from each other.
+* **Independence between groups :** Each of the 6 periods of time are independent of each other. They are not paired because they are different years and there is no relation between them.
+* **Approximate normality :** As it was possible to verify in the exploratory data analysis previously performed, there is good indication that all the groups are close to normal.
+* **Equal variance :** As it was possible to verify in the exploratory data analysis previously performed, all the boxplots show roughly the same size (same interquartile range), which indicates  a similar variability between the groups.
+
+As the ANOVA method is limited to indicate if one of the means between the different periods is different, additional tests are required to identify which period is different. For this reason, the methods to be used will be :
+
+1. `aov` function : It will fit an analysis of variance (ANOVA) model for the provided data set.
+2. `pairwise.t.test` function : It will compare all possible combinations of two group periods to each other, using the *Bonferroni correction* for $\alpha$.
+3. `TukeyHSD` function : It will create the confidence intervals on the differencs for each possible combination of two group periods, using a determined confidence level of $\alpha$ = 0.95.
+
+The first comparison will be the average year temperatures between each of the 6 group periods :
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+summary(aov(t.ave.c~period,ny.full.138y))
+```
+
+As the *p-value* is almost zero, there is strong evidence that at least one pair of population average temperatures are different from each other, so  H<sub>0</sub> is rejected in favour of H<sub>A</sub>.
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+pairwise.t.test(ny.full.138y$t.ave.c,ny.full.138y$period,p.adjust.method="bonferroni")
+```
+
+
+```{r,echo=TRUE,cache=TRUE,tidy=TRUE}
+TukeyHSD(aov(t.ave.c~period,ny.full.138y), conf.level = 0.95)
+```
 
 ### Conclusion:
 
