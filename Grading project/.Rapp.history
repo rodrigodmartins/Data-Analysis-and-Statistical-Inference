@@ -1,3 +1,4 @@
+dbinom(60:100,100,0.56,lower.tail=F)
 dbinom(60:100,100,0.56)
 sum(dbinom(60:100,100,0.56))
 pbinom(0,10,0.07,lower.tail=F)
@@ -242,9 +243,8 @@ seq(1877,2014,by=24)
 ls()
 rm(list=ls())
 load("/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/ny.138y.RData")
+ls()
 rm(list=ls())
 setwd('/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/GitHub/Data-Analysis-and-Statistical-Inference/Grading project')
 load("/Volumes/Documentos importantes/Coursera/12 - Data Analysis and Statistical Inference/Project/GitHub/Data-Analysis-and-Statistical-Inference/Grading project/ny.138y.RData")
-?aov
-?data.frame
-?format
+plot(aov(t.ave.c~period,ny.full.138y))
